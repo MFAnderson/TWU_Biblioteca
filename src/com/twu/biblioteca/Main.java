@@ -17,7 +17,7 @@ public class Main {
 
         Library library = new Library(initialBooks(), out, new StringJoiner(), new HashSet<String>());
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Menu menu = new Menu(out, library, reader);
+        Menu menu = new Menu(out, library, reader, null);
         BibliotecaController controller = new BibliotecaController(out, library, menu);
         controller.start();
     }

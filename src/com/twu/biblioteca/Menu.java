@@ -12,12 +12,14 @@ public class Menu {
     private PrintStream printStream;
     private Library library;
     private BufferedReader reader;
+    private Map<String, Command> commandMap;
     private boolean shouldContinue = true;
 
-    public Menu(PrintStream printStream, Library library, BufferedReader reader) {
+    public Menu(PrintStream printStream, Library library, BufferedReader reader, Map<String, Command> commandMap) {
         this.printStream = printStream;
         this.library = library;
         this.reader = reader;
+        this.commandMap = commandMap;
     }
 
     public void printOptions() {
@@ -31,27 +33,39 @@ public class Menu {
         if (input.equalsIgnoreCase("Quit")) {
             shouldContinue = false;
         } else if (input.equals("1")) {
-            library.listBooks();
+            listBooks();
         } else if (input.equals("2")) {
-            printStream.println("Which book would you like to check out?");
-            String book = reader.readLine();
-            boolean success = library.checkout(book);
-            if (success) {
-                printStream.println("Thank you! Enjoy the book");
-            } else {
-                printStream.println("That book is not available.");
-            }
+            checkoutBook();
         } else if (input.equals("3")) {
-            printStream.println("Which book would you like to return?");
-            String book = reader.readLine();
-            if (library.returnBook(book)){
-                printStream.println("Thank you for returning the book.");
-            } else {
-                printStream.println("That is not a valid book to return.");
-            }
+            returnBook();
         }
         else {
             printStream.println("Select a valid option!");
+        }
+    }
+
+    public void returnBook() throws IOException {
+        printStream.println("Which book would you like to return?");
+        String book = reader.readLine();
+        if (library.returnBook(book)){
+            printStream.println("Thank you for returning the book.");
+        } else {
+            printStream.println("That is not a valid book to return.");
+        }
+    }
+
+    public void listBooks() {
+        library.listBooks();
+    }
+
+    public void checkoutBook() throws IOException {
+        printStream.println("Which book would you like to check out?");
+        String book = reader.readLine();
+        boolean success = library.checkout(book);
+        if (success) {
+            printStream.println("Thank you! Enjoy the book");
+        } else {
+            printStream.println("That book is not available.");
         }
     }
 

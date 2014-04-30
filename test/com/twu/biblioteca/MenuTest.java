@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -18,13 +19,15 @@ public class MenuTest {
     private Menu menu;
     private Library library;
     private BufferedReader reader;
+    private Map<String,Command> commandMap;
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
         library = mock(Library.class);
         reader = mock(BufferedReader.class);
-        menu = new Menu(printStream, library, reader);
+        commandMap = mock(Map.class);
+        menu = new Menu(printStream, library, reader, commandMap);
     }
 
     @Test
@@ -39,6 +42,11 @@ public class MenuTest {
         menu.doSomethingWithOptions();
         verify(reader).readLine();
         verify(library).listBooks();
+    }
+
+    @Test
+    public void shouldCallCommandAssociatedWithInput() {
+
     }
 
     @Test
@@ -70,31 +78,30 @@ public class MenuTest {
 
     @Test
     public void shouldAskWhichBookWhenCheckingOut() throws IOException {
-        when(reader.readLine()).thenReturn("2");
-        menu.doSomethingWithOptions();
+        menu.checkoutBook();
         verify(printStream).println("Which book would you like to check out?");
     }
 
     @Test
     public void shouldCheckOutSelectedBook() throws IOException {
-        when(reader.readLine()).thenReturn("2").thenReturn("A book");
-        menu.doSomethingWithOptions();
+        when(reader.readLine()).thenReturn("A book");
+        menu.checkoutBook();
         verify(library).checkout("A book");
     }
 
     @Test
     public void shouldInformOfSuccessfulCheckout() throws IOException {
-        when(reader.readLine()).thenReturn("2").thenReturn("A book");
+        when(reader.readLine()).thenReturn("A book");
         when(library.checkout("A book")).thenReturn(true);
-        menu.doSomethingWithOptions();
+        menu.checkoutBook();
         verify(printStream).println("Thank you! Enjoy the book");
     }
 
     @Test
     public void shouldInformOfUnsuccessfulCheckout() throws IOException {
-        when(reader.readLine()).thenReturn("2").thenReturn("A book");
+        when(reader.readLine()).thenReturn("A book");
         when(library.checkout("A book")).thenReturn(false);
-        menu.doSomethingWithOptions();
+        menu.checkoutBook();
         verify(printStream).println("That book is not available.");
     }
 
@@ -106,32 +113,29 @@ public class MenuTest {
 
     @Test
     public void shouldAskWhichBookWhenReturningBook() throws IOException {
-        when(reader.readLine()).thenReturn("3");
-        menu.doSomethingWithOptions();
+        menu.returnBook();
         verify(printStream).println("Which book would you like to return?");
     }
 
     @Test
     public void shouldReturnSpecifiedBookToLibrary() throws IOException {
         String testBook = "A Book!";
-        when(reader.readLine()).thenReturn("3").thenReturn(testBook);
-        menu.doSomethingWithOptions();
+        when(reader.readLine()).thenReturn(testBook);
+        menu.returnBook();
         verify(library).returnBook(testBook);
     }
 
     @Test
     public void shouldDisplaySuccessMessageOnSuccessfulReturn() throws IOException {
-        when(reader.readLine()).thenReturn("3");
         when(library.returnBook(anyString())).thenReturn(true);
-        menu.doSomethingWithOptions();
+        menu.returnBook();
         verify(printStream).println("Thank you for returning the book.");
     }
 
     @Test
     public void shouldDisplayFailureMessageOnFailedReturn() throws IOException {
-        when(reader.readLine()).thenReturn("3");
         when(library.returnBook(anyString())).thenReturn(false);
-        menu.doSomethingWithOptions();
+        menu.returnBook();
         verify(printStream).println("That is not a valid book to return.");
     }
 }
