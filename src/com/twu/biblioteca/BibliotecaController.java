@@ -2,8 +2,6 @@ package com.twu.biblioteca;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by manderso on 4/29/14.
@@ -26,6 +24,6 @@ public class BibliotecaController {
         do {
             menu.printOptions();
             menu.doSomething();
-        } while(!menu.isDone());
+        } while(menu.shouldContinue());
     }
 }

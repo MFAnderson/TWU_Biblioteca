@@ -2,13 +2,11 @@ package com.twu.biblioteca;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
@@ -58,17 +56,17 @@ public class MenuTest {
     }
 
     @Test
-    public void shouldReturn0WhenQuitReceived() throws IOException {
+    public void shouldBeDoneAfterReceivingQuit() throws IOException {
         when(reader.readLine()).thenReturn("Quit");
-        int returnValue = menu.doSomething();
-        assertThat(returnValue, is(0));
+        menu.doSomething();
+        assertFalse(menu.shouldContinue());
     }
 
     @Test
-    public void shouldNotReturn0UnlessQuitReceived() throws IOException {
+    public void ShouldNotBeDoneIfQuitNotReceived() throws IOException {
         when(reader.readLine()).thenReturn("1");
-        int returnValue = menu.doSomething();
-        assertThat(returnValue, not(is(0)));
+        menu.doSomething();
+        assertTrue(menu.shouldContinue());
     }
 
     @Test

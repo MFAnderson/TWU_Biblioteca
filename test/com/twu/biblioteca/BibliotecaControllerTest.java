@@ -43,14 +43,14 @@ public class BibliotecaControllerTest {
 
     @Test
     public void shouldStopWhenDoSomethingReturns0() throws IOException {
-        when(menu.doSomething()).thenReturn(0);
+        when(menu.shouldContinue()).thenReturn(false);
         controller.start();
         verify(menu,times(1)).doSomething();
     }
 
     @Test
     public void shouldPromptAgainIf0NotReceived() throws IOException {
-        when(menu.doSomething()).thenReturn(1).thenReturn(0);
+        when(menu.shouldContinue()).thenReturn(true).thenReturn(false);
         controller.start();
         verify(menu, times(2)).doSomething();
     }
