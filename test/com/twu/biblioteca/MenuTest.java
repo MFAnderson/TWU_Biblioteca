@@ -92,7 +92,16 @@ public class MenuTest {
     @Test
     public void shouldInformOfSuccessfulCheckout() throws IOException {
         when(reader.readLine()).thenReturn("2").thenReturn("aaa");
+        when(library.checkout("aaa")).thenReturn(true);
         menu.doSomething();
         verify(printStream).println("Thank you! Enjoy the book");
+    }
+
+    @Test
+    public void shouldInformOfUnsuccessfulCheckout() throws IOException {
+        when(reader.readLine()).thenReturn("2").thenReturn("aaa");
+        when(library.checkout("aaa")).thenReturn(false);
+        menu.doSomething();
+        verify(printStream).println("That book is not available.");
     }
 }

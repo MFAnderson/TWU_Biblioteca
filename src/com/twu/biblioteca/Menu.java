@@ -27,7 +27,7 @@ public class Menu {
 
     public void doSomething() throws IOException {
         String input = reader.readLine();
-        if (input.equals("Quit")) {
+        if (input.equalsIgnoreCase("Quit")) {
             shouldContinue = false;
             return;
         }
@@ -36,8 +36,12 @@ public class Menu {
         } else if (input.equals("2")) {
             printStream.println("Which book would you like to check out?");
             String book = reader.readLine();
-            library.checkout(book);
-            printStream.println("Thank you! Enjoy the book");
+            boolean success = library.checkout(book);
+            if (success) {
+                printStream.println("Thank you! Enjoy the book");
+            } else {
+                printStream.println("That book is not available.");
+            }
         }
         else {
             printStream.println("Select a valid option!");

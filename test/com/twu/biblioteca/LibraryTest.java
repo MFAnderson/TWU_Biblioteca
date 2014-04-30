@@ -55,4 +55,18 @@ public class LibraryTest {
         library.checkout(book1);
         assertThat(books, not(hasItem(book1)));
     }
+
+    @Test
+    public void shouldReturnTrueOnSuccessfulCheckout() {
+        books.add("a");
+        boolean retVal = library.checkout("a");
+        assertTrue(retVal);
+    }
+
+    @Test
+    public void shouldReturnFalseOnFailedCheckout() {
+        boolean retVal = library.checkout("A BOOK THAT IS NOT IN THE LIBRARY");
+        assertFalse(retVal);
+
+    }
 }

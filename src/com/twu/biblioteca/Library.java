@@ -25,7 +25,7 @@ public class Library {
         printStream.println(joinedBooks);
     }
 
-    public void checkout(String book) {
-        books.remove(book);
+    public boolean checkout(String book) {
+        return books.remove(book);
     }
 }
