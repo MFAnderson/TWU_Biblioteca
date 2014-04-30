@@ -44,6 +44,7 @@ public class Menu {
             printStream.println("Which book would you like to return?");
             String book = reader.readLine();
             library.returnBook(book);
+            printStream.println("Thank you for returning the book.");
         }
         else {
             printStream.println("Select a valid option!");

@@ -74,4 +74,11 @@ public class LibraryTest {
         library.returnBook("Book Name");
         assertThat(books, hasItem("Book Name"));
     }
+
+    @Test
+    public void shouldReturnTrueOnSuccessfulReturn(){
+        boolean returnMessage = library.returnBook("Book");
+        assertTrue(returnMessage);
+    }
+
 }

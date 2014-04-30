@@ -119,5 +119,11 @@ public class MenuTest {
         verify(library).returnBook(testBook);
     }
 
-
+    @Test
+    public void shouldDisplaySuccessMessageOnSuccessfulReturn() throws IOException {
+        when(reader.readLine()).thenReturn("3");
+        when(library.returnBook(anyString())).thenReturn(true);
+        menu.doSomethingWithOptions();
+        verify(printStream).println("Thank you for returning the book.");
+    }
 }

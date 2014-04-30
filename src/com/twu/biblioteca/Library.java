@@ -29,7 +29,8 @@ public class Library {
         return books.remove(book);
     }
 
-    public void returnBook(String book) {
+    public boolean returnBook(String book) {
         books.add(book);
+        return true;
     }
 }
