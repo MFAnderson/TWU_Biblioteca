@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Map;
 
 /**
  * Created by manderso on 4/29/14.
@@ -43,8 +44,11 @@ public class Menu {
         } else if (input.equals("3")) {
             printStream.println("Which book would you like to return?");
             String book = reader.readLine();
-            library.returnBook(book);
-            printStream.println("Thank you for returning the book.");
+            if (library.returnBook(book)){
+                printStream.println("Thank you for returning the book.");
+            } else {
+                printStream.println("That is not a valid book to return.");
+            }
         }
         else {
             printStream.println("Select a valid option!");

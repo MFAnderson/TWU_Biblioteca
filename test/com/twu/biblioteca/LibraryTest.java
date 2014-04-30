@@ -4,10 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -22,13 +20,15 @@ public class LibraryTest {
     private Library library;
     private PrintStream printStream;
     private StringJoiner joiner;
+    private Collection<String> checkedOutBooks;
 
     @Before
     public void setUp() throws Exception {
         books = new HashSet<String>();
         printStream = mock(PrintStream.class);
         joiner = mock(StringJoiner.class);
-        library = new Library(books, printStream, joiner);
+        checkedOutBooks = new HashSet<String>();
+        library = new Library(books, printStream, joiner, checkedOutBooks);
     }
 
 
@@ -70,15 +70,38 @@ public class LibraryTest {
     }
 
     @Test
-    public void shouldHaveReturnBookInList(){
-        library.returnBook("Book Name");
-        assertThat(books, hasItem("Book Name"));
-    }
-
-    @Test
     public void shouldReturnTrueOnSuccessfulReturn(){
+        checkedOutBooks.add("Book");
         boolean returnMessage = library.returnBook("Book");
         assertTrue(returnMessage);
     }
 
+
+    @Test
+    public void shouldReturnFalseOnUnsuccessfulReturn() {
+        boolean returnMessage = library.returnBook("Book Not From Library");
+        assertFalse(returnMessage);
+    }
+
+    @Test
+    public void shouldNotAddNonCheckedOutBookToBooks() {
+        library.returnBook("A NOT CHECKED OUT BOOK");
+        assertThat(books, not(hasItem("A NOT CHECKED OUT BOOK")));
+    }
+
+    @Test
+    public void shouldReAddCheckedOutBookToBooks() {
+        String book = "A Book";
+        books.add(book);
+        library.checkout(book);
+        library.returnBook(book);
+        assertThat(books, hasItem(book));
+    }
+
+    @Test
+    public void shouldAddToCheckedOutBooksOnCheckOut() {
+        books.add("A book");
+        library.checkout("A book");
+        assertThat(checkedOutBooks, hasItem("A book"));
+    }
 }

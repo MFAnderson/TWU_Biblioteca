@@ -126,4 +126,12 @@ public class MenuTest {
         menu.doSomethingWithOptions();
         verify(printStream).println("Thank you for returning the book.");
     }
+
+    @Test
+    public void shouldDisplayFailureMessageOnFailedReturn() throws IOException {
+        when(reader.readLine()).thenReturn("3");
+        when(library.returnBook(anyString())).thenReturn(false);
+        menu.doSomethingWithOptions();
+        verify(printStream).println("That is not a valid book to return.");
+    }
 }
