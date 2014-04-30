@@ -28,4 +28,8 @@ public class Library {
     public boolean checkout(String book) {
         return books.remove(book);
     }
+
+    public void returnBook(String book) {
+        books.add(book);
+    }
 }

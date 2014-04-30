@@ -20,18 +20,16 @@ public class Menu {
     }
 
     public void printOptions() {
-
         printStream.println("1) List Books");
         printStream.println("2) Check out book");
+        printStream.println("3) Return book");
     }
 
-    public void doSomething() throws IOException {
+    public void doSomethingWithOptions() throws IOException {
         String input = reader.readLine();
         if (input.equalsIgnoreCase("Quit")) {
             shouldContinue = false;
-            return;
-        }
-        if (input.equals("1")) {
+        } else if (input.equals("1")) {
             library.listBooks();
         } else if (input.equals("2")) {
             printStream.println("Which book would you like to check out?");
@@ -42,6 +40,10 @@ public class Menu {
             } else {
                 printStream.println("That book is not available.");
             }
+        } else if (input.equals("3")) {
+            printStream.println("Which book would you like to return?");
+            String book = reader.readLine();
+            library.returnBook(book);
         }
         else {
             printStream.println("Select a valid option!");

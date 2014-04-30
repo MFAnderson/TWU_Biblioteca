@@ -67,6 +67,11 @@ public class LibraryTest {
     public void shouldReturnFalseOnFailedCheckout() {
         boolean retVal = library.checkout("A BOOK THAT IS NOT IN THE LIBRARY");
         assertFalse(retVal);
+    }
 
+    @Test
+    public void shouldHaveReturnBookInList(){
+        library.returnBook("Book Name");
+        assertThat(books, hasItem("Book Name"));
     }
 }

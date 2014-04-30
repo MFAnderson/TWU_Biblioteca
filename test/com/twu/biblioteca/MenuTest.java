@@ -36,7 +36,7 @@ public class MenuTest {
     @Test
     public void shouldListBooksWhenGivenOne() throws IOException {
         when(reader.readLine()).thenReturn("1");
-        menu.doSomething();
+        menu.doSomethingWithOptions();
         verify(reader).readLine();
         verify(library).listBooks();
     }
@@ -44,28 +44,21 @@ public class MenuTest {
     @Test
     public void shouldRePromptWhenGivenInvalidOption() throws IOException {
         when(reader.readLine()).thenReturn("argleflarble");
-        menu.doSomething();
+        menu.doSomethingWithOptions();
         verify(printStream).println("Select a valid option!");
-    }
-
-    @Test
-    public void shouldNotListBooksUnlessGiven1() throws IOException {
-        when(reader.readLine()).thenReturn("-1");
-        menu.doSomething();
-        verify(library, never()).listBooks();
     }
 
     @Test
     public void shouldBeDoneAfterReceivingQuit() throws IOException {
         when(reader.readLine()).thenReturn("Quit");
-        menu.doSomething();
+        menu.doSomethingWithOptions();
         assertFalse(menu.shouldContinue());
     }
 
     @Test
     public void ShouldNotBeDoneIfQuitNotReceived() throws IOException {
         when(reader.readLine()).thenReturn("1");
-        menu.doSomething();
+        menu.doSomethingWithOptions();
         assertTrue(menu.shouldContinue());
     }
 
@@ -78,30 +71,53 @@ public class MenuTest {
     @Test
     public void shouldAskWhichBookWhenCheckingOut() throws IOException {
         when(reader.readLine()).thenReturn("2");
-        menu.doSomething();
+        menu.doSomethingWithOptions();
         verify(printStream).println("Which book would you like to check out?");
     }
 
     @Test
     public void shouldCheckOutSelectedBook() throws IOException {
-        when(reader.readLine()).thenReturn("2").thenReturn("aaa");
-        menu.doSomething();
-        verify(library).checkout("aaa");
+        when(reader.readLine()).thenReturn("2").thenReturn("A book");
+        menu.doSomethingWithOptions();
+        verify(library).checkout("A book");
     }
 
     @Test
     public void shouldInformOfSuccessfulCheckout() throws IOException {
-        when(reader.readLine()).thenReturn("2").thenReturn("aaa");
-        when(library.checkout("aaa")).thenReturn(true);
-        menu.doSomething();
+        when(reader.readLine()).thenReturn("2").thenReturn("A book");
+        when(library.checkout("A book")).thenReturn(true);
+        menu.doSomethingWithOptions();
         verify(printStream).println("Thank you! Enjoy the book");
     }
 
     @Test
     public void shouldInformOfUnsuccessfulCheckout() throws IOException {
-        when(reader.readLine()).thenReturn("2").thenReturn("aaa");
-        when(library.checkout("aaa")).thenReturn(false);
-        menu.doSomething();
+        when(reader.readLine()).thenReturn("2").thenReturn("A book");
+        when(library.checkout("A book")).thenReturn(false);
+        menu.doSomethingWithOptions();
         verify(printStream).println("That book is not available.");
     }
+
+    @Test
+    public void shouldOfferReturnOption() {
+        menu.printOptions();
+        verify(printStream).println("3) Return book");
+    }
+
+    @Test
+    public void shouldAskWhichBookWhenReturningBook() throws IOException {
+        when(reader.readLine()).thenReturn("3");
+        menu.doSomethingWithOptions();
+        verify(printStream).println("Which book would you like to return?");
+    }
+
+    @Test
+    public void shouldReturnSpecifiedBookToLibrary() throws IOException {
+        String testBook = "A Book!";
+        when(reader.readLine()).thenReturn("3").thenReturn(testBook);
+        menu.doSomethingWithOptions();
+        verify(library).returnBook(testBook);
+    }
+
+
 }
