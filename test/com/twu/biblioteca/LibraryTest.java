@@ -104,4 +104,13 @@ public class LibraryTest {
         library.checkout("A book");
         assertThat(checkedOutBooks, hasItem("A book"));
     }
+
+    @Test
+    public void shouldNotHaveReturnedBookInCheckedOutCollection() {
+        String book = "A Book";
+        books.add(book);
+        library.checkout(book);
+        library.returnBook(book);
+        assertThat(checkedOutBooks, not(hasItem(book)));
+    }
 }

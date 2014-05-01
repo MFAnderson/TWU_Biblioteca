@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -19,6 +20,7 @@ public class MenuTest {
     private Menu menu;
     private Library library;
     private BufferedReader reader;
+    private Command command;
     private Map<String,Command> commandMap;
 
     @Before
@@ -26,27 +28,31 @@ public class MenuTest {
         printStream = mock(PrintStream.class);
         library = mock(Library.class);
         reader = mock(BufferedReader.class);
-        commandMap = mock(Map.class);
+        command = mock(Command.class);
+        commandMap = new HashMap<String, Command>();
         menu = new Menu(printStream, library, reader, commandMap);
     }
 
     @Test
-    public void shouldPrintAnOption(){
+    public void shouldPrintOptions(){
+        String input = "1";
+        String commandName = "A Command Name";
+        commandMap.put(input, command);
+        when(command.commandName()).thenReturn(commandName);
         menu.printOptions();
-        verify(printStream).println("1) List Books");
+        verify(printStream).println("1) A Command Name");
+//        verify(printStream).println("1) List Books");
+//        verify(printStream).println("2) Check out book");
+//        verify(printStream).println("3) Return book");
     }
 
     @Test
-    public void shouldListBooksWhenGivenOne() throws IOException {
-        when(reader.readLine()).thenReturn("1");
+    public void shouldCallCommandWhenOptionIsSelected() throws IOException {
+        String input = "1";
+        commandMap.put(input, command);
+        when(reader.readLine()).thenReturn(input);
         menu.doSomethingWithOptions();
-        verify(reader).readLine();
-        verify(library).listBooks();
-    }
-
-    @Test
-    public void shouldCallCommandAssociatedWithInput() {
-
+        verify(command).execute();
     }
 
     @Test

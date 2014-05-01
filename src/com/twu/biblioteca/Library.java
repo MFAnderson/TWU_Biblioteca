@@ -37,7 +37,7 @@ public class Library {
     }
 
     public boolean returnBook(String book) {
-        boolean belongsToLibrary = checkedOutBooks.contains(book);
+        boolean belongsToLibrary = checkedOutBooks.remove(book);
         if (belongsToLibrary) {
             books.add(book);
         }

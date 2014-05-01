@@ -9,7 +9,6 @@ import java.io.IOException;
  * Created by manderso on 4/30/14.
  */
 public class ReturnBookCommand implements Command{
-
     private Menu menu;
 
     public ReturnBookCommand( Menu menu ) {
@@ -19,5 +18,10 @@ public class ReturnBookCommand implements Command{
     @Override
     public void execute() throws IOException {
         menu.returnBook();
+    }
+
+    @Override
+    public String commandName() {
+        return "Return book";
     }
 }

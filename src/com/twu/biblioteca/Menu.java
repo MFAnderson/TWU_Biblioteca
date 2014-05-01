@@ -23,23 +23,18 @@ public class Menu {
     }
 
     public void printOptions() {
-        printStream.println("1) List Books");
-        printStream.println("2) Check out book");
-        printStream.println("3) Return book");
+        for(String input : commandMap.keySet()) {
+            printStream.println(input + ") " + commandMap.get(input).commandName());
+        }
     }
 
     public void doSomethingWithOptions() throws IOException {
         String input = reader.readLine();
         if (input.equalsIgnoreCase("Quit")) {
             shouldContinue = false;
-        } else if (input.equals("1")) {
-            listBooks();
-        } else if (input.equals("2")) {
-            checkoutBook();
-        } else if (input.equals("3")) {
-            returnBook();
-        }
-        else {
+        } else if (commandMap.containsKey(input)){
+            commandMap.get(input).execute();
+        } else {
             printStream.println("Select a valid option!");
         }
     }

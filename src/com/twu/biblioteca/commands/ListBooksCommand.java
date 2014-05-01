@@ -1,7 +1,6 @@
 package com.twu.biblioteca.commands;
 
 import com.twu.biblioteca.Command;
-import com.twu.biblioteca.Library;
 import com.twu.biblioteca.Menu;
 
 /**
@@ -17,5 +16,10 @@ public class ListBooksCommand implements Command {
     @Override
     public void execute() {
         menu.listBooks();
+    }
+
+    @Override
+    public String commandName() {
+        return "List books";
     }
 }
