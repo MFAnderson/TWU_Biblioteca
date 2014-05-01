@@ -38,20 +38,20 @@ public class BibliotecaControllerTest {
     @Test
     public void shouldPerformChosenOptionWhenStarts() throws IOException {
         controller.start();
-        verify(menu).doSomethingWithOptions();
+        verify(menu).selectOption();
     }
 
     @Test
     public void shouldStopWhenDoSomethingReturns0() throws IOException {
         when(menu.shouldContinue()).thenReturn(false);
         controller.start();
-        verify(menu,times(1)).doSomethingWithOptions();
+        verify(menu,times(1)).selectOption();
     }
 
     @Test
     public void shouldPromptAgainIf0NotReceived() throws IOException {
         when(menu.shouldContinue()).thenReturn(true).thenReturn(false);
         controller.start();
-        verify(menu, times(2)).doSomethingWithOptions();
+        verify(menu, times(2)).selectOption();
     }
 }

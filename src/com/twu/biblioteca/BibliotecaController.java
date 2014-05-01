@@ -23,7 +23,7 @@ public class BibliotecaController {
         printStream.println("Welcome!");
         do {
             menu.printOptions();
-            menu.doSomethingWithOptions();
+            menu.selectOption();
         } while(menu.shouldContinue());
     }
 }

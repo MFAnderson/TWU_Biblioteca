@@ -19,17 +19,15 @@ public class Main {
         Library library = new Library(initialBooks(), out, new StringJoiner(), new HashSet<String>());
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Map<String, Command> commandMap = new TreeMap<String, Command>();
-        Menu menu = new Menu(out, library, reader, commandMap);
-        populateCommandMap(commandMap, menu);
+//        commandMap.put("1", new ListBooksCommand(library));
+//        commandMap.put("2", new CheckOutCommand(out, reader, library));
+//        commandMap.put("3", new ReturnBookCommand(out, reader, library));
+        Menu menu = new Menu(out, reader, commandMap);
         BibliotecaController controller = new BibliotecaController(out, library, menu);
         controller.start();
     }
 
-    private static void populateCommandMap(Map<String, Command> commandMap, Menu menu) {
-        commandMap.put("1", new ListBooksCommand(menu));
-        commandMap.put("2", new CheckOutCommand(menu));
-        commandMap.put("3", new ReturnBookCommand(menu));
-    }
+
 
     private static Collection<String> initialBooks() {
         Collection<String> initialBooks = new ArrayList<String>();
