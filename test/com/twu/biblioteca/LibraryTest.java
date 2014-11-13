@@ -48,8 +48,8 @@ public class LibraryTest {
 
     @Test
     public void shouldNotPrintCheckedOutBook() {
-        String book1 = new String("aaa");
-        String book2 = new String("bbb");
+        String book1 = "aaa";
+        String book2 = "bbb";
         books.add(book1);
         books.add(book2);
         library.checkout(book1);

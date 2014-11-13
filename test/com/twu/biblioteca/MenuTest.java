@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -26,7 +27,7 @@ public class MenuTest {
         reader = mock(BufferedReader.class);
         command = mock(Command.class);
         commandMap = new HashMap<String, Command>();
-        menu = new Menu(printStream, reader, commandMap);
+        menu = new Menu(printStream, reader, commandMap, new AtomicBoolean(true));
     }
 
     @Test

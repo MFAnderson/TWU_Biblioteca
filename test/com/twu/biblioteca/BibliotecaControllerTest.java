@@ -12,15 +12,13 @@ public class BibliotecaControllerTest {
 
     private PrintStream out;
     private BibliotecaController controller;
-    private Library library;
     private Menu menu;
 
     @Before
     public void setUp() throws Exception {
         out = mock(PrintStream.class);
-        library = mock(Library.class);
         menu = mock(Menu.class);
-        controller = new BibliotecaController(out, library, menu);
+        controller = new BibliotecaController(out, menu);
     }
 
     @Test
